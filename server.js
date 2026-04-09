@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 const INTEGRATION_ID = "24141";
-const INTEGRATION_KEY = "PASTE_YOUR_REAL_KEY_HERE";
+const INTEGRATION_KEY = "faca91bb-394b-448e-bbaf-d20a8a981825";
 
 app.post("/pay", async (req, res) => {
   const { amount } = req.body;
