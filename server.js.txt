@@ -1,0 +1,33 @@
+const express = require("express");
+const cors = require("cors");
+const fetch = require("node-fetch");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const INTEGRATION_ID = "24141";
+const INTEGRATION_KEY = "PASTE_YOUR_KEY_HERE";
+
+app.post("/pay", async (req, res) => {
+  const { amount } = req.body;
+
+  const response = await fetch("https://www.paynow.co.zw/interface/initiatetransaction", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      id: INTEGRATION_ID,
+      reference: "TSH-" + Date.now(),
+      amount: amount,
+      additionalinfo: "T-Shirt Order",
+      returnurl: "https://your-site.vercel.app",
+      resulturl: "https://your-site.vercel.app",
+      authemail: "premiumconnect11@gmail.com"
+    })
+  });
+
+  const data = await response.text();
+  res.send(data);
+});
+
+app.listen(5000, () => console.log("Server running"));
