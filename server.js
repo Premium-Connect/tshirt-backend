@@ -31,9 +31,27 @@ app.post("/pay", async (req, res) => {
 
     const data = await response.text();
 
-    console.log(data); // 👈 IMPORTANT (for debugging)
+// Convert Paynow response
+let params = new URLSearchParams(data);
+let paymentUrl = params.get("browserurl");
 
-    res.send(data);
+if (paymentUrl) {
+  res.json({ url: paymentUrl });
+} else {
+  console.log(data); // debug
+  res.status(400).json({ error: "No payment URL returned" });
+}const data = await response.text();
+
+// Convert Paynow response
+let params = new URLSearchParams(data);
+let paymentUrl = params.get("browserurl");
+
+if (paymentUrl) {
+  res.json({ url: paymentUrl });
+} else {
+  console.log(data); // debug
+  res.status(400).json({ error: "No payment URL returned" });
+};
 
   } catch (error) {
     res.status(500).send("Error connecting to Paynow");
